@@ -1,0 +1,7 @@
+__pycache__
+.ipynb_checkpoints
+src.egg-info
+
+# Exclude processed datasets
+data/interim
+data/processed
