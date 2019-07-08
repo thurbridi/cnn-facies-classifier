@@ -32,3 +32,21 @@ def plot_confusion_matrix(matrix, classes,
                     color="white" if matrix[i, j] > thresh else "black")
     fig.tight_layout()
     return ax
+
+
+def plot_classes_freq(class_freq, classes, title=None):
+    fig, ax = plt.subplots()
+    n_classes = len(classes)
+    idx = np.arange(n_classes)
+
+    ax.bar(idx, class_freq.values())
+
+    ax.set(
+        title=title,
+        xticks=idx,
+        xticklabels=classes,
+        ylabel='Examples',
+    )
+
+    fig.tight_layout()
+    return ax
