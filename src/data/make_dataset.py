@@ -1,4 +1,5 @@
 import os
+import argparse
 import scipy.io as sio
 import numpy as np
 import h5py
@@ -22,10 +23,8 @@ def sample_well_locations(n_wells, x_range, y_range):
     return well_locations
 
 
-def main():
-    seed = 42
-    n_wells = 10
-    image_size = 32
+def main(seed=42, n_wells=10, image_size=32):
+    print("Creating dataset...")
 
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, '../../data/raw/stanford6_truncated.mat')
@@ -113,4 +112,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--seed", help="RNG initial seed")
+    parser.add_argument(
+        "n_wells", type=int, help="number of wells to sample training data")
+    parser.add_argument(
+        "image_size", type=int, help="size of dataset images (image_size x image_size)")
+    args = parser.parse_args()
+
+    main(seed=args.seed, n_wells=args.n_wells, image_size=args.image_size)
