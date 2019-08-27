@@ -23,13 +23,13 @@ def sample_well_locations(n_wells, x_range, y_range):
     return well_locations
 
 
-def main(seed=42, n_wells=10, image_size=32):
+def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_rgb.h5'):
     print("Creating dataset...")
 
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, '../../data/raw/stanford6_truncated.mat')
     dataset_path = os.path.join(
-        dirname, '../../data/interim/stanford6_truncated_rgb.h5')
+        dirname, '../../data/interim', out_filename)
 
     data = sio.loadmat(filename)
     seismic_cube = data['sismica_input']
@@ -44,7 +44,7 @@ def main(seed=42, n_wells=10, image_size=32):
     np.random.seed(seed)
     well_locations = sample_well_locations(n_wells, x_range, y_range)
 
-    m_train = n_wells * z_range
+    m_train = n_wells * 50
     m_test = z_range * x_range * y_range
 
     seismic_cube -= np.min(seismic_cube)
@@ -114,10 +114,17 @@ def main(seed=42, n_wells=10, image_size=32):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", help="RNG initial seed")
+    parser.add_argument("--output", dest='out_filename',
+                        help='Output file name')
     parser.add_argument(
         "n_wells", type=int, help="number of wells to sample training data")
     parser.add_argument(
         "image_size", type=int, help="size of dataset images (image_size x image_size)")
     args = parser.parse_args()
 
-    main(seed=args.seed, n_wells=args.n_wells, image_size=args.image_size)
+    main(
+        seed=args.seed,
+        n_wells=args.n_wells,
+        image_size=args.image_size,
+        out_filename=args.out_filename
+    )
