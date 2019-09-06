@@ -24,7 +24,7 @@ def sample_well_locations(n_wells, x_range, y_range):
 
 
 def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_rgb.h5'):
-    print('Creating dataset...')
+    print('Creating dataset...\n')
 
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, '../../data/raw/stanford6_truncated.mat')
@@ -94,7 +94,9 @@ def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_r
                     Y_train[j] = facies
                     j += 1
 
-    print(f'Wells sampled: {n_wells}')
+    print(f'Seed: {seed}')
+    print(f'Input shape: {width, depth, height} (x, y, z)')
+    print(f'#Wells sampled: {n_wells}')
     print(f'Sampled well locations:\n{well_locations}\n')
 
     print(f'X_train shape: {X_train.shape}')
