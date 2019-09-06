@@ -6,7 +6,7 @@ import h5py
 
 
 def save_dataset(path, X_train, Y_train, X_test, Y_test):
-    f = h5py.File(path, "w")
+    f = h5py.File(path, 'w')
     f.create_dataset('test/X', data=X_test)
     f.create_dataset('test/Y', data=Y_test)
     f.create_dataset('train/X', data=X_train)
@@ -24,7 +24,7 @@ def sample_well_locations(n_wells, x_range, y_range):
 
 
 def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_rgb.h5'):
-    print("Creating dataset...")
+    print('Creating dataset...')
 
     dirname = os.path.dirname(__file__)
     filename = os.path.join(dirname, '../../data/raw/stanford6_truncated.mat')
@@ -44,7 +44,7 @@ def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_r
     np.random.seed(seed)
     well_locations = sample_well_locations(n_wells, x_range, y_range)
 
-    m_train = n_wells * 50
+    m_train = n_wells * z_range
     m_test = z_range * x_range * y_range
 
     seismic_cube -= np.min(seismic_cube)
@@ -113,13 +113,30 @@ def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_r
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--seed", help="RNG initial seed")
-    parser.add_argument("--output", dest='out_filename',
-                        help='Output file name')
     parser.add_argument(
-        "n_wells", type=int, help="number of wells to sample training data")
+        'n_wells',
+        type=int,
+        help='number of wells to sample training data'
+    )
     parser.add_argument(
-        "image_size", type=int, help="size of dataset images (image_size x image_size)")
+        'image_size',
+        type=int,
+        help='size of dataset images (image_size x image_size)'
+    )
+    parser.add_argument(
+        '-s', '--seed',
+        type=int,
+        default=42,
+        dest='seed',
+        help='RNG initial seed'
+    )
+    parser.add_argument(
+        '-o', '--output',
+        type=str,
+        default='stanford6_truncated_rgb.h5',
+        dest='out_filename',
+        help='Output file name'
+    )
     args = parser.parse_args()
 
     main(
