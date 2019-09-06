@@ -104,7 +104,7 @@ def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_r
     print(f'X_test shape: {X_test.shape}')
     print(f'Y_test shape: {Y_test.shape}\n')
 
-    print(f'Saving dataset as "{dataset_path}"...')
+    print(f'Saving dataset as "{dataset_path}"\n...')
     save_dataset(
         dataset_path,
         X_train, Y_train,
