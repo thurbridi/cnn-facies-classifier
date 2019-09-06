@@ -6,3 +6,4 @@ src.egg-info
 # Exclude processed datasets
 data/interim
 data/processed
+models/**
