@@ -23,7 +23,7 @@ def sample_well_locations(n_wells, x_range, y_range):
     return well_locations
 
 
-def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_truncated_rgb.h5'):
+def main(seed=42, n_wells=10, image_size=32, out_filename='stanford6_32.h5'):
     print('Creating dataset...\n')
 
     dirname = os.path.dirname(__file__)
