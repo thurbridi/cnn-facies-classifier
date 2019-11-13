@@ -23,7 +23,7 @@ def plot_confusion_matrix(matrix, classes,
              rotation_mode="anchor")
 
     # Loop over data dimensions and create text annotations.
-    fmt = '.2f'
+    fmt = '.3f'
     thresh = matrix.max() / 2.
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
@@ -47,6 +47,7 @@ def plot_classes_freq(class_freq, classes, title=None):
         xticklabels=classes,
         ylabel='Examples',
     )
+    plt.xticks(rotation=20)
 
     fig.tight_layout()
     return ax

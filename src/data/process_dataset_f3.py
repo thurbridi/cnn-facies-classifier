@@ -5,6 +5,8 @@ import keras
 import numpy as np
 from imblearn.over_sampling import RandomOverSampler
 
+np.random.seed(42)
+
 
 def main(filename):
     dirname = os.path.dirname(__file__)
@@ -14,8 +16,6 @@ def main(filename):
     with h5py.File(in_path, 'r') as dataset:
         x_train_original = np.array(dataset['train/X'])
         y_train_original = np.array(dataset['train/Y'])
-        x_test_original = np.array(dataset['test/X'])
-        y_test_original = np.array(dataset['test/Y'])
 
     m = x_train_original.shape[0]
     num_classes = len(np.unique(y_train_original))
@@ -32,8 +32,6 @@ def main(filename):
         (x_train_resampled.shape[0], *x_train_original.shape[1:])
     )
 
-    np.random.seed(42)
-
     m = x_train_resampled.shape[0]
     idx = np.random.choice(m, int(m * 0.2))
     mask = np.ones(m, dtype=bool)
@@ -48,13 +46,7 @@ def main(filename):
     x_val = x_val_split.astype('float16') / 255
     y_val = keras.utils.to_categorical(y_val_split, num_classes)
 
-    x_test = x_test_original.astype('float16') / 255
-    y_test = keras.utils.to_categorical(y_test_original, num_classes)
-
     with h5py.File(out_path, 'w') as file:
-        file.create_dataset('test/X', data=x_test)
-        file.create_dataset('test/Y', data=y_test)
-
         file.create_dataset('val/X', data=x_val)
         file.create_dataset('val/Y', data=y_val)
 
