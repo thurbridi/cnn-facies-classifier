@@ -8,3 +8,9 @@ def class_frequency(y, n_classes):
     frequency = dict(zip(unique, counts))
 
     return {**empty, **frequency}
+
+
+def remove_borders(cube, image_size):
+    shape = cube.shape
+    half = int(image_size / 2)
+    return cube[(half - 1):shape[0] - half, (half - 1):shape[1] - half, (half - 1):shape[2] - half]

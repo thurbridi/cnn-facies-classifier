@@ -23,7 +23,7 @@ def plot_confusion_matrix(matrix, classes,
              rotation_mode="anchor")
 
     # Loop over data dimensions and create text annotations.
-    fmt = '.3f'
+    fmt = '.2f'
     thresh = matrix.max() / 2.
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
@@ -51,3 +51,16 @@ def plot_classes_freq(class_freq, classes, title=None):
 
     fig.tight_layout()
     return ax
+
+
+def show_results(results, classnames):
+    print(f'Mean-accuracy:    \t{results["mean-accuracy"]}')
+    print(f'Precision(macro): \t{results["precision-macro"]}')
+    print(f'Recall(macro):    \t{results["recall-macro"]}')
+    print(f'F1-Score(macro):  \t{results["f1-score-macro"]}')
+    print(f'FWIU:             \t{results["fwiu"]}')
+
+    plot_confusion_matrix(
+        results["confusion-matrix"],
+        classnames.values(),
+        title="Confusion matrix")

@@ -1,36 +1,35 @@
 import numpy as np
-from keras.callbacks import Callback
-import keras.backend as K
 from sklearn.metrics import (confusion_matrix, f1_score, precision_score,
-                             recall_score)
+                             recall_score, jaccard_score)
 
 
-class ConfusionMatrixCallback(Callback):
-    def on_test_end(self, logs=None):
-        print("confusion matrix on test end")
+def mean_class_accuracy(cm):
+    fp = cm.sum(axis=0) - np.diag(cm)
+    fn = cm.sum(axis=1) - np.diag(cm)
+    tp = np.diag(cm)
+    tn = cm.sum() - (fp + fn + tp)
+
+    class_acc = (tp + tn) / (tp + tn + fp + fn)
+    return np.mean(class_acc)
 
 
-class F1ScoreCallback(Callback):
-    def on_epoch_end(self, epoch, logs=None):
-        y_pred = K.cast(K.argmax(self.model.outputs, axis=-1), K.floatx())
-        y_true = np.asarray(K.argmax(self.model.targets,
-                                     axis=-1), K.floatx())
+def evaluate(y_true, y_pred):
+    print('Evaluating model...\n')
 
-        print(y_pred[0])
-        print(y_true[0])
+    matrix = confusion_matrix(y_true, y_pred)
+    accuracy = mean_class_accuracy(matrix)
+    precision = precision_score(y_true, y_pred, average='macro')
+    recall = recall_score(y_true, y_pred, average='macro')
+    f1 = f1_score(y_true, y_pred, average='macro')
+    fwiu = jaccard_score(y_true, y_pred, average='weighted')
 
-        _precision = precision_score(y_true, y_pred, average='macro')
-        _recall = recall_score(y_true, y_pred, average='macro')
-        _f1 = f1_score(y_true, y_pred, average='macro')
+    matrix = matrix.astype('float') / matrix.sum(axis=1)[:, np.newaxis]
 
-        print(f'\nPrecision:')
-        print(f'validation (cur: {_precision})')
-
-        print(f'\nRecall:')
-        print(f'validation (cur: {_recall})')
-
-        print(f'\nF1-Score:')
-        print(f'validation (cur: {_f1})')
-
-    def on_test_end(self, logs=None):
-        pass
+    return {
+        'mean-accuracy': accuracy,
+        'precision-macro': precision,
+        'recall-macro': recall,
+        'f1-score-macro': f1,
+        'confusion-matrix': matrix,
+        'fwiu': fwiu,
+    }
