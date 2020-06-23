@@ -3,7 +3,11 @@
 
 ## Abstract
 
+Technological advances in oil and gas reservoir characterization such as 3D seismics andseismic attributes enriched the subsurface’s description made by specialists. Nevertheless, the analysis of this now huge volume of data became a complex task. This work explores the use of convolutional neural networks for seismic facies classification, one of the steps of reservoir characterization. Through a sampling method that captures spacial informationof seismic data, the models produced were applied in both synthetic data of the StanfordVI-E reservoir and in a benchmark based on the F3 block, which is part of a real reservoir. Compared to other models in the same benchmark, the classifiers produced here had similar results, with over 90% class accuracy on some instances. The sampling method is also flexible to use in practical cases.
+
 ![cnn result slices](img/cnn_result.gif)
+
+*Image: Stanford VI-E ground-truth (left) and network predictions (right) visualized in horizontal slices*
 
 ## Setup
 After you've created your python virtual environment, run:
