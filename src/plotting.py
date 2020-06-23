@@ -47,6 +47,20 @@ def plot_classes_freq(class_freq, classes, title=None):
         xticklabels=classes,
         ylabel='Examples',
     )
+    plt.xticks(rotation=20)
 
     fig.tight_layout()
     return ax
+
+
+def show_results(results, classnames):
+    print(f'Mean-accuracy:    \t{results["mean-accuracy"]}')
+    print(f'Precision(macro): \t{results["precision-macro"]}')
+    print(f'Recall(macro):    \t{results["recall-macro"]}')
+    print(f'F1-Score(macro):  \t{results["f1-score-macro"]}')
+    print(f'FWIU:             \t{results["fwiu"]}')
+
+    plot_confusion_matrix(
+        results["confusion-matrix"],
+        classnames.values(),
+        title="Confusion matrix")
